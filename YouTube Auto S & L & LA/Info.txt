@@ -1,0 +1,47 @@
+Description technique du userscript "YouTube Auto Shuffle and Loop & Loop All"
+
+
+Ce userscript JavaScript s’exécute sur toutes les pages YouTube contenant une 
+playlist, détectée via la présence du paramètre &list= dans l’URL. 
+Il automatise l’activation de trois fonctionnalités principales : le mode 
+lecture aléatoire (shuffle), la boucle de la vidéo en cours (loop video), 
+et la boucle de la playlist entière (loop all).
+
+
+
+Fonctionnement principal :
+
+Le script utilise la fonction tryClick(selector, name) pour rechercher et 
+cliquer sur les boutons correspondants aux actions souhaitées, en ciblant les 
+éléments DOM via leurs sélecteurs CSS :
+
+Lecture aléatoire : bouton avec l’attribut aria-label="Playlist en mode 
+aléatoire"
+
+Boucle vidéo : bouton avec la classe .ytp-loop-button
+
+Boucle playlist : bouton avec l’attribut aria-label="Playlist en boucle"
+
+Chaque clic est tenté à plusieurs reprises grâce à un setInterval de 1 seconde, 
+avec une limite maximale de 20 secondes pour arrêter les essais.
+
+Un MutationObserver est mis en place pour surveiller les changements dans la 
+barre de contrôle vidéo (.ytp-chrome-bottom) ou dans le document.body afin de 
+détecter dynamiquement l’apparition des boutons lorsque la page ou les 
+contrôles sont chargés ou mis à jour.
+
+Le script maintient un état interne (shuffleDone, loopVideoDone, 
+loopPlaylistDone) pour éviter de répéter inutilement les clics sur les 
+boutons déjà activés.
+
+Le script s’arrête automatiquement lorsque toutes les actions ont été 
+réalisées avec succès, ou à l’issue du délai maximum, libérant ainsi les 
+ressources.
+
+
+
+Usage :
+
+Ce script permet d’automatiser la configuration d’une lecture continue 
+optimisée sur YouTube, sans intervention utilisateur, idéal pour une 
+expérience d’écoute de playlists fluide et sans interruptions.
