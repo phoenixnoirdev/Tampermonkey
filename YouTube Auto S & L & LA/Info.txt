@@ -1,12 +1,12 @@
-Description technique du userscript "YouTube Auto Shuffle and Loop & Loop All v0.6"
+Description technique du userscript "YouTube Auto Shuffle and Loop & Loop All v0.7"
 
 
 Ce userscript JavaScript s’exécute sur toutes les pages YouTube contenant une 
 playlist, détectée via la présence du paramètre &list= dans l’URL. 
-Il automatise l’activation de quatres fonctionnalités principales : le mode 
+Il automatise l’activation de quatres fonctionnalités principales si le 
+paramètre correspondants est a TRUE, sinon l'option est desactiver: le mode 
 lecture aléatoire (shuffle), la boucle de la vidéo en cours (loop video), 
-la boucle de la playlist entière (loop all), et regle le volume du lecteur a 
-20%.
+la boucle de la playlist entière (loop all), et regle le volume du lecteur.
 
 
 
