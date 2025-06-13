@@ -1,11 +1,12 @@
-Description technique du userscript "YouTube Auto Shuffle and Loop & Loop All"
+Description technique du userscript "YouTube Auto Shuffle and Loop & Loop All v0.6"
 
 
 Ce userscript JavaScript s’exécute sur toutes les pages YouTube contenant une 
 playlist, détectée via la présence du paramètre &list= dans l’URL. 
-Il automatise l’activation de trois fonctionnalités principales : le mode 
+Il automatise l’activation de quatres fonctionnalités principales : le mode 
 lecture aléatoire (shuffle), la boucle de la vidéo en cours (loop video), 
-et la boucle de la playlist entière (loop all).
+la boucle de la playlist entière (loop all), et regle le volume du lecteur a 
+20%.
 
 
 
@@ -23,7 +24,7 @@ Boucle vidéo : bouton avec la classe .ytp-loop-button
 Boucle playlist : bouton avec l’attribut aria-label="Playlist en boucle"
 
 Chaque clic est tenté à plusieurs reprises grâce à un setInterval de 1 seconde, 
-avec une limite maximale de 20 secondes pour arrêter les essais.
+avec une limite maximale de 50 secondes pour arrêter les essais.
 
 Un MutationObserver est mis en place pour surveiller les changements dans la 
 barre de contrôle vidéo (.ytp-chrome-bottom) ou dans le document.body afin de 
