@@ -1,48 +1,84 @@
-Description technique du userscript "YouTube Auto Shuffle and Loop & Loop All v0.7"
+Description technique du userscript "YouTube Auto Shuffle and Loop & Volume - V0.9"
+
+Ce userscript JavaScript s’exécute sur toutes les pages YouTube. 
+Il est conçu pour automatiser l’activation de plusieurs fonctionnalités lors de 
+la lecture d’une playlist YouTube contenant le paramètre &list= dans l’URL.
+Il applique automatiquement les options suivantes si elles sont activées dans 
+la configuration interne du script :
+
+	Lecture aléatoire (shuffle)
+	Boucle de la vidéo en cours (loop vidéo)
+	Boucle de la playlist entière (loop all)
+	Réglage du volume (niveau défini entre 0 et 100)
+	Redirection automatique vers une playlist cible spécifique si l’utilisateur 
+	quitte cette playlist
 
 
-Ce userscript JavaScript s’exécute sur toutes les pages YouTube contenant une 
-playlist, détectée via la présence du paramètre &list= dans l’URL. 
-Il automatise l’activation de quatres fonctionnalités principales si le 
-paramètre correspondants est a TRUE, sinon l'option est desactiver: le mode 
-lecture aléatoire (shuffle), la boucle de la vidéo en cours (loop video), 
-la boucle de la playlist entière (loop all), et regle le volume du lecteur.
+Fonctionnement général :
+
+L’utilisateur peut définir les paramètres suivants en haut du script :
+
+	VOLUME_LEVEL : volume du lecteur (de 0 à 100)
+	
+	ENABLE_SHUFFLE, ENABLE_LOOP_VIDEO, ENABLE_LOOP_PLAYLIST, ENABLE_VOLUME : 
+	activation des fonctions
+	
+	FORCE_REDIRECT_TO_PLAYLIST : redirection automatique si l’utilisateur 
+	quitte la playlist spécifiée
+	
+	FORCED_PLAYLIST_URL et FORCED_PLAYLIST_ID : URL et ID de la playlist cible
+	
+	CHECK_INTERVAL_MS : intervalle de vérification de redirection (par défaut 
+	30 secondes)
 
 
+Détection de playlist :
 
-Fonctionnement principal :
-
-Le script utilise la fonction tryClick(selector, name) pour rechercher et 
-cliquer sur les boutons correspondants aux actions souhaitées, en ciblant les 
-éléments DOM via leurs sélecteurs CSS :
-
-Lecture aléatoire : bouton avec l’attribut aria-label="Playlist en mode 
-aléatoire"
-
-Boucle vidéo : bouton avec la classe .ytp-loop-button
-
-Boucle playlist : bouton avec l’attribut aria-label="Playlist en boucle"
-
-Chaque clic est tenté à plusieurs reprises grâce à un setInterval de 1 seconde, 
-avec une limite maximale de 50 secondes pour arrêter les essais.
-
-Un MutationObserver est mis en place pour surveiller les changements dans la 
-barre de contrôle vidéo (.ytp-chrome-bottom) ou dans le document.body afin de 
-détecter dynamiquement l’apparition des boutons lorsque la page ou les 
-contrôles sont chargés ou mis à jour.
-
-Le script maintient un état interne (shuffleDone, loopVideoDone, 
-loopPlaylistDone) pour éviter de répéter inutilement les clics sur les 
-boutons déjà activés.
-
-Le script s’arrête automatiquement lorsque toutes les actions ont été 
-réalisées avec succès, ou à l’issue du délai maximum, libérant ainsi les 
-ressources.
+Le script vérifie que l’URL contient le paramètre &list=, sinon il ne s’exécute 
+pas.
 
 
+Redirection automatique :
 
-Usage :
+Si la redirection est activée, le script redirige automatiquement l’utilisateur 
+vers l’URL de la playlist spécifiée s’il en sort, à l’ouverture de la page et 
+toutes les 30 secondes.
 
-Ce script permet d’automatiser la configuration d’une lecture continue 
-optimisée sur YouTube, sans intervention utilisateur, idéal pour une 
-expérience d’écoute de playlists fluide et sans interruptions.
+
+Activation des fonctionnalités :
+
+Le script utilise une fonction tryClick(selector, label) pour cliquer sur les 
+boutons de contrôle :
+
+	Lecture aléatoire : button[aria-label="Playlist en mode aléatoire"]
+	
+	Boucle vidéo : .ytp-loop-button
+	
+	Boucle playlist : button[aria-label="Playlist en boucle"]
+	
+	Un système d’intervalle de vérification est lancé toutes les secondes, 
+	pendant un maximum de 50 secondes, pour activer les options demandées. 
+	
+	Une fois toutes les actions réussies, le script s’arrête automatiquement et 
+	libère les ressources.
+	
+	Le volume est réglé via l’API JavaScript de YouTube (player.setVolume()), 
+	si disponible.
+
+
+Détection dynamique :
+
+Un MutationObserver est utilisé pour détecter l’apparition des contrôles vidéo 
+dans le DOM (.ytp-chrome-bottom), permettant d’activer les options même si la 
+page met du temps à charger.
+
+Le script garde un état interne (shuffleDone, loopVideoDone, loopPlaylistDone, 
+volumeDone) pour ne pas répéter les actions inutilement.
+
+
+Utilisation :
+
+Ce script est idéal pour les utilisateurs souhaitant une expérience d’écoute 
+continue, fluide et personnalisée de playlists YouTube. Il automatise les 
+réglages nécessaires sans intervention manuelle, y compris en restaurant la 
+lecture si l’utilisateur quitte la playlist ciblée.
